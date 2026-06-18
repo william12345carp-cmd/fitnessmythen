@@ -827,7 +827,14 @@ console.log("STEP 3 Firestore Speicherung erfolgreich");
               </div>
 
               {/* Chat embed */}
-              <AIPresentation />
+             <div className="max-w-3xl mx-auto grid gap-4">
+  {FAQS.slice(0, 4).map((faq, idx) => (
+    <div key={idx} className="border border-zinc-900 bg-[#080808] rounded-lg p-6 text-left">
+      <h3 className="text-white font-bold text-sm mb-3">{faq.q}</h3>
+      <p className="text-zinc-400 text-sm leading-relaxed">{faq.a}</p>
+    </div>
+  ))}
+</div>
             </div>
           </section>
 
