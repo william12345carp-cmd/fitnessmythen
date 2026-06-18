@@ -7,7 +7,7 @@ import {
   updateDoc,
   serverTimestamp 
 } from "firebase/firestore";
-import { db, auth, handleFirestoreError, OperationType } from "./lib/firebase";
+import { db, auth, handleFirestoreError, OperationType } from "./firebase";
 import { AIPresentation } from "./components/AIPresentation";
 import { AdminPanel } from "./components/AdminPanel";
 import confetti from "canvas-confetti";
