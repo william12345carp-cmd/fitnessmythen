@@ -160,12 +160,20 @@ export default function App() {
       console.log("STEP 2 Firestore Verbindung");
 
       // Save directly to the waitlist collection using a generated doc id
-      const waitlistRef = doc(collection(db, "waitlist"));
-      await setDoc(waitlistRef, {
-        name: nameVal,
-        email: emailVal,
-        createdAt: serverTimestamp()
-      });
+     setDoc(waitlistRef, {
+  name: nameVal,
+  email: emailVal,
+  createdAt: serverTimestamp()
+});
+
+console.log("STEP 3 Firestore Speicherung erfolgreich");
+      setDoc(waitlistRef, {
+  name: nameVal,
+  email: emailVal,
+  createdAt: serverTimestamp()
+});
+
+console.log("STEP 3 Firestore Speicherung erfolgreich");
 
       console.log("STEP 3 Firestore Speicherung erfolgreich");
 
