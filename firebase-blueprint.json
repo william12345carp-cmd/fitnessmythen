@@ -1,0 +1,36 @@
+{
+  "entities": {
+    "Registration": {
+      "title": "Registration",
+      "description": "A waitlist entry for the Fortschritt System",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The first name / full name of the waitlist registrant"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the waitlist registrant"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The server-validated timestamp when the registration was submitted"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/waitlist/{registrationId}": {
+      "schema": "Registration",
+      "description": "List of fitness platform waitlist registration entries"
+    }
+  }
+}

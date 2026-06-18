@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'william12345carp@gmail.com' &&
+        request.auth.token.email_verified == true
+      );
+    }
+
+    // Validates waitlist registration document structure and limits
+    function isValidWaitlistEntry(data) {
+      return data.keys().hasAll(['name', 'email', 'createdAt']) && data.keys().size() == 3
+        && data.name is string && data.email is string && data.createdAt == request.time
+        && data.name.size() >= 1 && data.name.size() <= 100
+        && data.email.size() >= 3 && data.email.size() <= 320;
+    }
+
+    // MATCH: Waitlist Collection
+    match /waitlist/{registrationId} {
+      // Anyone can sign up for the waitlist, provided the entry is valid
+      allow create: if isValidWaitlistEntry(request.resource.data);
+      
+      // Admin only operations
+      allow read, list, get: if isAdmin();
+      allow delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Fortschritt System",
+  "description": "Premium Landing Page / Warteliste für das Fortschritt System von Fitness Mythen mit automatischer Google Sheets Synchronisierung und eigenem KI Coach.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
