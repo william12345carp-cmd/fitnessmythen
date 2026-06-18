@@ -48,25 +48,20 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: "Bitte stelle eine Frage." });
     }
 
-    const client = getAIClient();
-    const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
-      contents: question,
-      config: {
-        systemInstruction: `Du bist der offizielle KI Coach des "FORTSCHRITT SYSTEM BY FITNESS MYTHEN".
-Deine Rolle ist es, Fitness-Fragen absolut wissenschaftlich fundiert, evidenzbasiert, sachlich und direkt zu beantworten.
-Du entlarvst Fitness-Mythen und Broscience radikal und lieferst klare Fakten aus der aktuellen sportwissenschaftlichen und ernährungswissenschaftlichen Forschung.
+    let reply = "";
 
-Halte dich an diese Richtlinien:
-1. Antworte auf Deutsch.
-2. Sei professionell, aber motivierend und verständlich. Vermeide unnötiges wissenschaftliches Kauderwelsch, aber verweise auf biologische und physiologische Prinzipien (z. B. Energiebilanz, Hypertrophie-Reize).
-3. Beende deine Antwort immer mit einem eleganten Hinweis, dass das "FORTSCHRITT SYSTEM" genau diese Prinzipien automatisiert und maßgeschneidert auf den User anwendet.
-Beispiel-Schlusssatz: "Genau diese evidenzbasierten Methoden sind im Fortschritt System fest verankert — für maximale Ergebnisse ohne Rätselraten. Trag dich jetzt auf die Warteliste ein, um dir deinen exklusiven Frühzugang zu sichern! 🚀"`,
-        temperature: 0.7,
-      },
-    });
-
-    const reply = response.text || "Entschuldigung, ich konnte keine Antwort generieren. Bitte versuche es erneut.";
+if (question.includes("Kohlenhydrate")) {
+  reply = "Nein. Kohlenhydrate am Abend machen nicht automatisch dick. Entscheidend ist die gesamte Kalorienbilanz über den Tag.";
+} else if (question.includes("Protein")) {
+  reply = "Für Muskelaufbau empfehlen Studien etwa 1,6 bis 2,2 Gramm Protein pro Kilogramm Körpergewicht.";
+} else if (question.includes("Muskelkater")) {
+  reply = "Nein. Muskelkater ist kein zuverlässiger Indikator für Muskelaufbau oder Trainingsfortschritt.";
+} else if (question.includes("Intervallfasten")) {
+  reply = "Intervallfasten ist nicht magisch. Entscheidend bleibt die Kalorienbilanz.";
+} else {
+  reply = "Der Fortschritt KI Coach wird aktuell aktualisiert. Bitte nutze vorerst die Beispiel-Fragen.";
+}
+   
     return res.status(200).json({ reply });
   } catch (error: any) {
     console.error("AI Coach Serverless Error:", error);
