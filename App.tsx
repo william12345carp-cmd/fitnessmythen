@@ -7,8 +7,8 @@ import {
   updateDoc,
   serverTimestamp 
 } from "firebase/firestore";
-import { db } from "./firebase";
-
+import { db, auth, handleFirestoreError, OperationType } from "./lib/firebase";
+import { AIPresentation } from "./components/AIPresentation";
 import { AdminPanel } from "./components/AdminPanel";
 import confetti from "canvas-confetti";
 import { 
@@ -159,14 +159,16 @@ export default function App() {
 
       console.log("STEP 2 Firestore Verbindung");
 
-   // Save directly to the waitlist collection using a generated doc id
-await setDoc(waitlistRef, {
-  name: nameVal,
-  email: emailVal,
-  createdAt: serverTimestamp()
-});
+      // Save directly to the waitlist collection using a generated doc id
+      const waitlistRef = doc(collection(db, "waitlist"));
+      await setDoc(waitlistRef, {
+        name: nameVal,
+        email: emailVal,
+        createdAt: serverTimestamp()
+      });
 
-console.log("STEP 3 Firestore Speicherung erfolgreich");
+      console.log("STEP 3 Firestore Speicherung erfolgreich");
+
       // Trigger premium confetti inside viewport
       confetti({
         particleCount: 150,
@@ -827,14 +829,7 @@ console.log("STEP 3 Firestore Speicherung erfolgreich");
               </div>
 
               {/* Chat embed */}
-             <div className="max-w-3xl mx-auto grid gap-4">
-  {FAQS.slice(0, 4).map((faq, idx) => (
-    <div key={idx} className="border border-zinc-900 bg-[#080808] rounded-lg p-6 text-left">
-      <h3 className="text-white font-bold text-sm mb-3">{faq.q}</h3>
-      <p className="text-zinc-400 text-sm leading-relaxed">{faq.a}</p>
-    </div>
-  ))}
-</div>
+              <AIPresentation />
             </div>
           </section>
 
@@ -1486,3 +1481,4 @@ console.log("STEP 3 Firestore Speicherung erfolgreich");
     </div>
   );
 }
+
